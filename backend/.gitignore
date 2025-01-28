@@ -38,4 +38,6 @@ out/
 
 ### Custom ###
 db_dev.mv.db
-db_dev.trace.db
+db_dev.trace.db0
+apiV1.json
+src/main/resources/application-secret.yml

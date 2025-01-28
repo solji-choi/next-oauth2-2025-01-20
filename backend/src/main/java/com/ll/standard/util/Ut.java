@@ -169,7 +169,7 @@ public class Ut {
         }
     }
 
-    public class cmd {
+    public static class cmd {
         public static void runAsync(String cmd) {
             new Thread(() -> {
                 run(cmd);
