@@ -100,4 +100,17 @@ public class MemberService {
     public void modify(Member member, @NotBlank String nickname) {
         member.setNickname(nickname);
     }
+
+    public Member modifyOrJoin(String username, String nickname) {
+        Optional<Member> opMember = findByUsername(username);
+
+        if(opMember.isPresent()) {
+            Member member = opMember.get();
+            modify(member, nickname);
+
+            return member;
+        }
+
+        return join(username, "", nickname);
+    }
 }
