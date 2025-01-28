@@ -21,6 +21,7 @@ import {
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import client from '@/lib/backend/client'
 
 function ModeToggle() {
   const { setTheme } = useTheme()
@@ -78,24 +79,18 @@ export function ClientLayout({
   }
 
   useEffect(() => {
-    // 추후 이 부분은 fetch(GET http://localhost:8080/api/v1/members/me) 로 대체될 예정이다.
-    // 현재는 일단은 임시로 관리자 회원으로 로그인 했다고 가정하기 위해서 아래와 같이 선언
-    // 실제로 나중에 fetch로 변경될 때도 fetch가 완료되는데 걸리는 시간이 걸린다.
-    // 그 상황을 실감나게 흉내내기 위해서 setTimeout을 사용하였다.
-    const timeout = setTimeout(() => {
-      // 로그인에 성공한 경우
-      setLoginMember({
-        id: 2,
-        createDate: '',
-        modifyDate: '',
-        nickname: 'admin',
-      })
-
-      // 로그인에 실패한 경우
-      // setNoLoginMember();
-    }, 1000)
-
-    return () => clearTimeout(timeout)
+    // useEffect 의 인자는 async 함수를 넣을 수 없다.
+    // 그래서 아래에서 프로미스 문법사용
+    // 참고로 현재 브라우저에 쿠키가 있어도 http only 이기 때문에 로그인한 회원의 정보는 이렇게 확인해야 한다.
+    client.GET('/api/v1/members/me').then((res) => {
+      if (res.error) {
+        // accessToken 쿠키와 apiKey 쿠키 중 둘다 없거나 둘다 만료된 경우 여기가 실행된다.
+        setNoLoginMember()
+      } else {
+        // accessToken 쿠키 or apiKey 쿠키 중 하나가 유효하다면 여기가 실행된다.
+        setLoginMember(res.data)
+      }
+    })
   }, [])
 
   // isLoginMemberPending 의 시작상태는 true 이다.
@@ -110,9 +105,12 @@ export function ClientLayout({
   }
 
   const logout = () => {
-    // 나중에는 fetch(DELETE http://localhost:8080/api/v1/members/logout) 가 선행된 후 removeLoginMember(); 가 실행되는 구조로 변경될 예정이다.
-    removeLoginMember()
-    router.replace('/')
+    // 이제 로그아웃도 쿠키를 지운 후 로컬 상태를 갱신한다.
+    // 참고로 토큰 쿠키들을 http only 이기 때문에 이렇게 삭제해야 한다.
+    client.DELETE('/api/v1/members/logout').then((res) => {
+      removeLoginMember()
+      router.replace('/')
+    })
   }
 
   return (
@@ -162,23 +160,7 @@ export function ClientLayout({
         </header>
         <main className="flex-1 flex flex-col">{children}</main>
         <footer className="p-2 flex justify-center">
-          <Button variant="link" asChild>
-            <Link href="/adm">
-              <Settings /> 관리자
-            </Link>
-          </Button>
-
-          <Button variant="link" asChild>
-            <Link href="/adm/member/login">
-              <LogIn /> 관리자 로그인
-            </Link>
-          </Button>
-
-          <Button variant="link" asChild>
-            <Link href="/member/me">
-              <User /> 내 정보
-            </Link>
-          </Button>
+          <span>© 2025 글로그</span>
         </footer>
       </LoginMemberContext>
     </NextThemesProvider>
