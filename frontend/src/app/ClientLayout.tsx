@@ -139,7 +139,11 @@ export function ClientLayout({
           {isLogin && (
             <Button variant="link" asChild>
               <Link href="/member/me">
-                <User /> 내 정보
+                <User /> {loginMember.nickname}
+                <img
+                  className="w-8 h-8 rounded-full object-cover"
+                  src={loginMember.profileImgUrl}
+                />
               </Link>
             </Button>
           )}
