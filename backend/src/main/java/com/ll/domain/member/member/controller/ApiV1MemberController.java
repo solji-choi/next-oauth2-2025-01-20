@@ -44,7 +44,7 @@ public class ApiV1MemberController {
     public RsData<MemberDto> join(
             @RequestBody @Valid MemberJoinReqBody reqBody
     ) {
-        Member member = memberService.join(reqBody.username, reqBody.password, reqBody.nickname);
+        Member member = memberService.join(reqBody.username, reqBody.password, reqBody.nickname, "");
 
         return new RsData<>(
                 "201-1",
@@ -105,7 +105,7 @@ public class ApiV1MemberController {
     @Transactional(readOnly = true)
     @Operation(summary = "내정보")
     public MemberDto me() {
-        Member actor = rq.getActor();
+        Member actor = memberService.findById(rq.getActor().getId()).get();
 
         return new MemberDto(actor);
     }
@@ -135,9 +135,9 @@ public class ApiV1MemberController {
     public RsData<MemberDto> modifyMe(
             @RequestBody @Valid MemberModifyMeReqBody reqBody
     ) {
-        Member actor = memberService.findByUsername(rq.getActor().getUsername()).get();
+        Member actor = memberService.findById(rq.getActor().getId()).get();
 
-        memberService.modify(actor, reqBody.nickname);
+        memberService.modify(actor, reqBody.nickname, "");
 
         rq.refreshAccessToken(actor);
 

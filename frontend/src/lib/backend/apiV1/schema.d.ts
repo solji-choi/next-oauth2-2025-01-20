@@ -300,6 +300,7 @@ export interface components {
             /** Format: date-time */
             modifyDate: string;
             nickname: string;
+            profileImgUrl: string;
         };
         RsDataMemberDto: {
             resultCode: string;
@@ -375,6 +376,7 @@ export interface components {
             /** Format: date-time */
             modifyDate: string;
             nickname: string;
+            profileImgUrl: string;
             username: string;
         };
         PageDtoMemberWithUsernameDto: {
