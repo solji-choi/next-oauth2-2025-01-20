@@ -1,5 +1,7 @@
 'use client'
 
+import Image from 'next/image'
+
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
 import * as React from 'react'
 
@@ -140,9 +142,13 @@ export function ClientLayout({
             <Button variant="link" asChild>
               <Link href="/member/me">
                 <User /> {loginMember.nickname}
-                <img
+                <Image
                   className="w-8 h-8 rounded-full object-cover"
                   src={loginMember.profileImgUrl}
+                  width={32}
+                  height={32}
+                  quality={100}
+                  alt={''}
                 />
               </Link>
             </Button>
