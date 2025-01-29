@@ -5,7 +5,7 @@ import ThemeToggleButton from '@/lib/business/components/ThemeToggleButton'
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
 import * as React from 'react'
 
-import { Home, LogIn } from 'lucide-react'
+import { Copyright, Home, LogIn } from 'lucide-react'
 
 // 로그인 한 회원의 정보는 전역상태로 관리하는 것이 좋다.
 // LoginMemberContext : 이 컴포넌트의 하위 클라이언트 컴포넌트는 Context의 value 값을 `use` 함수로 얻을 수 있다.
@@ -84,6 +84,17 @@ export function ClientLayout({
               <Home /> 홈
             </Link>
           </Button>
+          <div className="flex-grow"></div>
+          {isLogin && <MeMenuButton />}
+          <ThemeToggleButton />
+        </header>
+        <main className="flex-1 flex flex-col">{children}</main>
+        <footer className="p-2 flex justify-center">
+          <Button variant="link" asChild>
+            <Link href="/">
+              <Copyright /> 2025 글로그
+            </Link>
+          </Button>
           {!isLogin && (
             <Button variant="link" asChild>
               <Link href="/adm/member/login">
@@ -91,13 +102,6 @@ export function ClientLayout({
               </Link>
             </Button>
           )}
-          <div className="flex-grow"></div>
-          {isLogin && <MeMenuButton />}
-          <ThemeToggleButton />
-        </header>
-        <main className="flex-1 flex flex-col">{children}</main>
-        <footer className="p-2 flex justify-center">
-          <span>© 2025 글로그</span>
         </footer>
       </LoginMemberContext>
     </NextThemesProvider>
