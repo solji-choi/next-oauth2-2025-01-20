@@ -8,6 +8,16 @@ import Logo from './Logo'
 import MeMenuButton from './MeMenuButton'
 import ThemeToggleButton from './ThemeToggleButton'
 import Link from 'next/link'
+import {
+  DrawerTrigger,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerClose,
+  Drawer,
+} from '@/components/ui/drawer'
 
 export default function NarrowHeaderContent({
   className,
@@ -17,21 +27,34 @@ export default function NarrowHeaderContent({
   const { isLogin } = use(LoginMemberContext)
   return (
     <div className={`${className} py-1`}>
-      <Button variant="link">
-        <Menu />
-      </Button>
+      <Drawer>
+        <DrawerTrigger asChild>
+          <Button variant="link">
+            <Menu />
+          </Button>
+        </DrawerTrigger>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>전체 메뉴</DrawerTitle>
+            <DrawerDescription></DrawerDescription>
+          </DrawerHeader>
+          <div className="max-h-[calc(100dvh-150px)] overflow-y-auto px-2">
+            <Button variant="link" asChild>
+              <Link href="/post/list">
+                <TableOfContents /> 글
+              </Link>
+            </Button>
+            <Button variant="link" asChild>
+              <Link href="/post/write">
+                <Pencil /> 작성
+              </Link>
+            </Button>
+          </div>
+        </DrawerContent>
+      </Drawer>
+
       <Button variant="link" asChild>
         <Logo />
-      </Button>
-      <Button variant="link" asChild>
-        <Link href="/post/list">
-          <TableOfContents /> 글
-        </Link>
-      </Button>
-      <Button variant="link" asChild>
-        <Link href="/post/write">
-          <Pencil /> 작성
-        </Link>
       </Button>
       <div className="flex-grow"></div>
       {isLogin && <MeMenuButton />}
