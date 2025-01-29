@@ -1,11 +1,9 @@
 'use client'
 
-import ThemeToggleButton from '@/lib/business/components/ThemeToggleButton'
-
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
 import * as React from 'react'
 
-import { Copyright, Home, LogIn } from 'lucide-react'
+import { Copyright, LogIn } from 'lucide-react'
 
 // 로그인 한 회원의 정보는 전역상태로 관리하는 것이 좋다.
 // LoginMemberContext : 이 컴포넌트의 하위 클라이언트 컴포넌트는 Context의 value 값을 `use` 함수로 얻을 수 있다.
@@ -14,7 +12,8 @@ import { LoginMemberContext, useLoginMember } from '@/stores/auth/loginMember'
 
 import { Button } from '@/components/ui/button'
 import client from '@/lib/backend/client'
-import MeMenuButton from '@/lib/business/components/MeMenuButton'
+import NarrowHeaderContent from '@/lib/business/components/NarrowHeaderContent'
+import WideHeaderContent from '@/lib/business/components/WideHeaderContent'
 import Link from 'next/link'
 import { useEffect } from 'react'
 
@@ -78,15 +77,9 @@ export function ClientLayout({
       <LoginMemberContext value={loginMemberContextValue}>
         {/* 이 안의 모든 곳에서 `loginMemberContextValue` 변수를 `use` 함수를 통해서 접근할 수 있다. */}
         {/* 하지만 여기서는 어짜피 useLoginMember 함수의 실행결과가 바로 있기 때문에 딱히 `use` 를 사용할 필요가 없다. */}
-        <header className="flex p-2">
-          <Button variant="link" asChild>
-            <Link href="/">
-              <Home /> 홈
-            </Link>
-          </Button>
-          <div className="flex-grow"></div>
-          {isLogin && <MeMenuButton />}
-          <ThemeToggleButton />
+        <header>
+          <NarrowHeaderContent className="flex lg:hidden w-full" />
+          <WideHeaderContent className="lg:flex hidden w-full" />
         </header>
         <main className="flex-1 flex flex-col">{children}</main>
         <footer className="p-2 flex justify-center">
