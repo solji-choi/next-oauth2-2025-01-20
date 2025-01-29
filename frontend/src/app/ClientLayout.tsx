@@ -1,13 +1,11 @@
 'use client'
 
-import Image from 'next/image'
-
 import ThemeToggleButton from '@/lib/business/components/ThemeToggleButton'
 
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
 import * as React from 'react'
 
-import { Home, LogIn, LogOut, Settings, User } from 'lucide-react'
+import { Home, LogIn } from 'lucide-react'
 
 // 로그인 한 회원의 정보는 전역상태로 관리하는 것이 좋다.
 // LoginMemberContext : 이 컴포넌트의 하위 클라이언트 컴포넌트는 Context의 value 값을 `use` 함수로 얻을 수 있다.
@@ -16,16 +14,13 @@ import { LoginMemberContext, useLoginMember } from '@/stores/auth/loginMember'
 
 import { Button } from '@/components/ui/button'
 import client from '@/lib/backend/client'
+import MeMenuButton from '@/lib/business/components/MeMenuButton'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
 export function ClientLayout({
   children,
 }: React.ComponentProps<typeof NextThemesProvider>) {
-  // 로그아웃 후 홈으로 이동하기 위해서 로드
-  const router = useRouter()
-
   // 훅을 통해서 로그인 한 회원의 정보(state)와 관련된 함수들을 얻는다.
   const {
     setLoginMember,
@@ -73,16 +68,6 @@ export function ClientLayout({
       </div>
     )
   }
-
-  const logout = () => {
-    // 이제 로그아웃도 쿠키를 지운 후 로컬 상태를 갱신한다.
-    // 참고로 토큰 쿠키들을 http only 이기 때문에 이렇게 삭제해야 한다.
-    client.DELETE('/api/v1/members/logout').then((res) => {
-      removeLoginMember()
-      router.replace('/')
-    })
-  }
-
   return (
     <NextThemesProvider
       attribute="class"
@@ -99,33 +84,6 @@ export function ClientLayout({
               <Home /> 홈
             </Link>
           </Button>
-          {isAdmin && (
-            <Button variant="link" asChild>
-              <Link href="/adm">
-                <Settings /> 관리자
-              </Link>
-            </Button>
-          )}
-          {isLogin && (
-            <Button variant="link" asChild>
-              <Link href="/member/me">
-                <User /> {loginMember.nickname}
-                <Image
-                  className="w-8 h-8 rounded-full object-cover"
-                  src={loginMember.profileImgUrl}
-                  width={32}
-                  height={32}
-                  quality={100}
-                  alt={''}
-                />
-              </Link>
-            </Button>
-          )}
-          {isLogin && (
-            <Button variant="link" onClick={logout}>
-              <LogOut /> 로그아웃
-            </Button>
-          )}
           {!isLogin && (
             <Button variant="link" asChild>
               <Link href="/adm/member/login">
@@ -134,6 +92,7 @@ export function ClientLayout({
             </Button>
           )}
           <div className="flex-grow"></div>
+          {isLogin && <MeMenuButton />}
           <ThemeToggleButton />
         </header>
         <main className="flex-1 flex flex-col">{children}</main>
