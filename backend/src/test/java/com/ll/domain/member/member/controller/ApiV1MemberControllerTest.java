@@ -300,7 +300,7 @@ public class ApiV1MemberControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(actor.getId()))
                 .andExpect(jsonPath("$.nickname").value(actor.getNickname()))
-                .andExpect(jsonPath("$.profileImgUrl").value(actor.getProfileImgUrl()));
+                .andExpect(jsonPath("$.profileImgUrl").value(actor.getProfileImgUrlOrDefault()));
     }
 
     @Test
@@ -325,7 +325,7 @@ public class ApiV1MemberControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(actor.getId()))
                 .andExpect(jsonPath("$.nickname").value(actor.getNickname()))
-                .andExpect(jsonPath("$.profileImgUrl").value(actor.getProfileImgUrl()));
+                .andExpect(jsonPath("$.profileImgUrl").value(actor.getProfileImgUrlOrDefault()));
     }
 
     @Test
