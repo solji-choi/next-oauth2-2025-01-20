@@ -2,11 +2,12 @@
 
 import Image from 'next/image'
 
+import ThemeToggleButton from '@/lib/business/components/ThemeToggleButton'
+
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
 import * as React from 'react'
 
-import { Home, LogIn, LogOut, Moon, Settings, Sun, User } from 'lucide-react'
-import { useTheme } from 'next-themes'
+import { Home, LogIn, LogOut, Settings, User } from 'lucide-react'
 
 // 로그인 한 회원의 정보는 전역상태로 관리하는 것이 좋다.
 // LoginMemberContext : 이 컴포넌트의 하위 클라이언트 컴포넌트는 Context의 value 값을 `use` 함수로 얻을 수 있다.
@@ -14,43 +15,10 @@ import { useTheme } from 'next-themes'
 import { LoginMemberContext, useLoginMember } from '@/stores/auth/loginMember'
 
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+import client from '@/lib/backend/client'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
-import client from '@/lib/backend/client'
-
-function ModeToggle() {
-  const { setTheme } = useTheme()
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">테마</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme('light')}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('dark')}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('system')}>
-          System
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
-}
 
 export function ClientLayout({
   children,
@@ -166,7 +134,7 @@ export function ClientLayout({
             </Button>
           )}
           <div className="flex-grow"></div>
-          <ModeToggle />
+          <ThemeToggleButton />
         </header>
         <main className="flex-1 flex flex-col">{children}</main>
         <footer className="p-2 flex justify-center">
