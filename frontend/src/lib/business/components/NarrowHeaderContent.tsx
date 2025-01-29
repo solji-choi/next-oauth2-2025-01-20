@@ -1,12 +1,12 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { LoginMemberContext, useLoginMember } from '@/stores/auth/loginMember'
-import { Home, Menu, Triangle } from 'lucide-react'
-import Link from 'next/link'
+import { LoginMemberContext } from '@/stores/auth/loginMember'
+import { Menu } from 'lucide-react'
+import { use } from 'react'
+import Logo from './Logo'
 import MeMenuButton from './MeMenuButton'
 import ThemeToggleButton from './ThemeToggleButton'
-import { use } from 'react'
 
 export default function NarrowHeaderContent({
   className,
@@ -20,9 +20,7 @@ export default function NarrowHeaderContent({
         <Menu />
       </Button>
       <Button variant="link" asChild>
-        <Link href="/">
-          <Triangle />
-        </Link>
+        <Logo />
       </Button>
       <div className="flex-grow"></div>
       {isLogin && <MeMenuButton />}
