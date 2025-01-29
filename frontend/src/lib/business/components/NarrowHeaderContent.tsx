@@ -63,53 +63,88 @@ export default function NarrowHeaderContent({
           <div className="max-h-[calc(100dvh-150px)] pb-2 overflow-y-auto px-2">
             <ul>
               <li>
-                <Button variant="link" className="w-full justify-start" asChild>
-                  <Link href="/post/list">
-                    <TableOfContents /> 글
-                  </Link>
-                </Button>
-              </li>
-              <li>
-                <Button variant="link" className="w-full justify-start" asChild>
-                  <Link href="/post/write">
-                    <Pencil /> 작성
-                  </Link>
-                </Button>
-              </li>
-              <li>
-                <Button variant="link" className="w-full justify-start" asChild>
-                  <Logo text />
-                </Button>
-              </li>
-              <li>
-                <Button variant="link" className="w-full justify-start" asChild>
-                  <Link href="/member/me">
-                    <User /> {loginMember.nickname}
-                  </Link>
-                </Button>
-              </li>
-              {isAdmin && (
-                <li>
+                <DrawerClose asChild>
                   <Button
                     variant="link"
                     className="w-full justify-start"
                     asChild
                   >
-                    <Link href="/adm">
-                      <MonitorCog /> 관리자 홈
+                    <Link href="/post/list">
+                      <TableOfContents /> 글
                     </Link>
                   </Button>
+                </DrawerClose>
+              </li>
+              <li>
+                <DrawerClose asChild>
+                  <Button
+                    variant="link"
+                    className="w-full justify-start"
+                    asChild
+                  >
+                    <Link href="/post/write">
+                      <Pencil /> 작성
+                    </Link>
+                  </Button>
+                </DrawerClose>
+              </li>
+              <li className="py-2">
+                <hr />
+              </li>
+              <li>
+                <DrawerClose asChild>
+                  <Button
+                    variant="link"
+                    className="w-full justify-start"
+                    asChild
+                  >
+                    <Logo text />
+                  </Button>
+                </DrawerClose>
+              </li>
+              {isLogin && (
+                <li>
+                  <DrawerClose asChild>
+                    <Button
+                      variant="link"
+                      className="w-full justify-start"
+                      asChild
+                    >
+                      <Link href="/member/me">
+                        <User /> {loginMember.nickname}
+                      </Link>
+                    </Button>
+                  </DrawerClose>
                 </li>
               )}
-              <li>
-                <Button
-                  variant="link"
-                  className="w-full justify-start"
-                  onClick={logout}
-                >
-                  <LogOut /> 로그아웃
-                </Button>
-              </li>
+              {isAdmin && (
+                <li>
+                  <DrawerClose asChild>
+                    <Button
+                      variant="link"
+                      className="w-full justify-start"
+                      asChild
+                    >
+                      <Link href="/adm">
+                        <MonitorCog /> 관리자 홈
+                      </Link>
+                    </Button>
+                  </DrawerClose>
+                </li>
+              )}
+              {isLogin && (
+                <li>
+                  <DrawerClose asChild>
+                    <Button
+                      variant="link"
+                      className="w-full justify-start"
+                      onClick={logout}
+                    >
+                      <LogOut /> 로그아웃
+                    </Button>
+                  </DrawerClose>
+                </li>
+              )}
             </ul>
           </div>
         </DrawerContent>
