@@ -3,6 +3,7 @@ package com.ll.global.app;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
@@ -15,11 +16,15 @@ public class AppConfig {
         AppConfig.objectMapper = objectMapper;
     }
 
-    public static boolean isNotProd() {
-        return true;
+    @Getter
+    private static String siteFrontUrl;
+
+    @Value("${custom.site.frontUrl}")
+    public void setSiteFrontUrl(String siteFrontUrl) {
+        AppConfig.siteFrontUrl = siteFrontUrl;
     }
 
-    public static String getSiteFrontUrl() {
-        return "http://localhost:3000/";
+    public static boolean isNotProd() {
+        return true;
     }
 }

@@ -110,4 +110,13 @@ public class Rq {
         setHeader("Authorization", "Bearer " + member.getApiKey() + " " + newAccessToken);
         setCookie("accessToken", newAccessToken);
     }
+
+    public String makeAuthCookies(Member member) {
+        String accessToken = memberService.getAccessToken(member);
+
+        setCookie("apiKey", member.getApiKey());
+        setCookie("accessToken", accessToken);
+
+        return accessToken;
+    }
 }
