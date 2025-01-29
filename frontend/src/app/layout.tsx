@@ -32,14 +32,17 @@ export default function RootLayout({
       className={`${pretendard.variable}`}
       suppressHydrationWarning
     >
-      <body
-        className={`${pretendard.className} antialiased flex flex-col min-h-[100dvh]`}
-      >
-        <ClientLayout>
-          {children}
-          <Toaster />{' '}
-          {/* 샤드CN 토스트 컴포넌트, 이게 있어야 토스트 컴포넌트가 정상적으로 작동함 */}
-        </ClientLayout>
+      <body className={`${pretendard.className} antialiased`}>
+        <div
+          className="flex flex-col min-h-[100dvh] bg-background"
+          vaul-drawer-wrapper="true"
+        >
+          <ClientLayout>
+            {children}
+            <Toaster />
+            {/* 샤드CN 토스트 컴포넌트, 이게 있어야 토스트 컴포넌트가 정상적으로 작동함 */}
+          </ClientLayout>
+        </div>
       </body>
     </html>
   )
