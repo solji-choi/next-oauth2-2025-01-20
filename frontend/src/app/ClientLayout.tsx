@@ -22,24 +22,23 @@ export function ClientLayout({
 }: React.ComponentProps<typeof NextThemesProvider>) {
   // 훅을 통해서 로그인 한 회원의 정보(state)와 관련된 함수들을 얻는다.
   const {
-    setLoginMember,
-    isLogin,
-    loginMember,
-    removeLoginMember,
     isLoginMemberPending,
-    isAdmin,
     setNoLoginMember,
+    loginMember,
+    setLoginMember,
+    logout,
+    isLogin,
+    isAdmin,
   } = useLoginMember()
 
-  // Context를 통해서 전역적으로 공유할 값을 만든다.
   const loginMemberContextValue = {
+    isLoginMemberPending,
+    setNoLoginMember,
     loginMember,
     setLoginMember,
-    removeLoginMember,
+    logout,
     isLogin,
-    isLoginMemberPending,
     isAdmin,
-    setNoLoginMember,
   }
 
   useEffect(() => {

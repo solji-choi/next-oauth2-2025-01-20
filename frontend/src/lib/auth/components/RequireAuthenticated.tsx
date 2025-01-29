@@ -1,16 +1,15 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { LoginMemberContext } from '@/stores/auth/loginMember'
+import { useGlobalLoginMember } from '@/stores/auth/loginMember'
 import Link from 'next/link'
-import { use } from 'react'
 
 export default function RequireAuthenticated({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const { isLogin } = use(LoginMemberContext)
+  const { isLogin } = useGlobalLoginMember()
 
   if (!isLogin)
     return (

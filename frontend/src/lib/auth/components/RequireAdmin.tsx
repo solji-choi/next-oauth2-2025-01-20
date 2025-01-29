@@ -1,16 +1,15 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { LoginMemberContext } from '@/stores/auth/loginMember'
+import { useGlobalLoginMember } from '@/stores/auth/loginMember'
 import Link from 'next/link'
-import { use } from 'react'
 
 export default function RequireAdmin({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const { isAdmin } = use(LoginMemberContext)
+  const { isAdmin } = useGlobalLoginMember()
 
   if (!isAdmin)
     return (

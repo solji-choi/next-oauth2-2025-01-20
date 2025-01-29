@@ -12,10 +12,9 @@ import {
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/hooks/use-toast'
 import client from '@/lib/backend/client'
-import { LoginMemberContext } from '@/stores/auth/loginMember'
+import { useGlobalLoginMember } from '@/stores/auth/loginMember'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import { use } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -36,7 +35,7 @@ type LoginFormInputs = z.infer<typeof loginFormSchema>
 
 export default function LoginForm() {
   const router = useRouter()
-  const { setLoginMember } = use(LoginMemberContext)
+  const { setLoginMember } = useGlobalLoginMember()
   const { toast } = useToast()
   const form = useForm<LoginFormInputs>({
     resolver: zodResolver(loginFormSchema),

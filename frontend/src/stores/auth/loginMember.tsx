@@ -1,26 +1,25 @@
 'use client'
 
 import { components } from '@/lib/backend/apiV1/schema'
-import { createContext, useState } from 'react'
+import client from '@/lib/backend/client'
+import { createContext, use, useState } from 'react'
 
 type Member = components['schemas']['MemberDto']
 
 export const LoginMemberContext = createContext<{
   loginMember: Member
   setLoginMember: (member: Member) => void
-  removeLoginMember: () => void
   isLogin: boolean
   isLoginMemberPending: boolean
   isAdmin: boolean
-  setNoLoginMember: () => void
+  logout: (callback: () => void) => void
 }>({
   loginMember: createEmptyMember(),
   setLoginMember: () => {},
-  removeLoginMember: () => {},
   isLogin: false,
   isLoginMemberPending: true,
   isAdmin: false,
-  setNoLoginMember: () => {},
+  logout: (callback: () => void) => {},
 })
 
 function createEmptyMember(): Member {
@@ -29,6 +28,7 @@ function createEmptyMember(): Member {
     createDate: '',
     modifyDate: '',
     nickname: '',
+    profileImgUrl: '',
   }
 }
 
@@ -53,13 +53,24 @@ export function useLoginMember() {
   const isLogin = loginMember.id !== 0
   const isAdmin = loginMember.id === 2
 
+  const logout = (callback: () => void) => {
+    client.DELETE('/api/v1/members/logout').then((res) => {
+      removeLoginMember()
+      callback()
+    })
+  }
+
   return {
     loginMember,
-    removeLoginMember,
+    logout,
     isLogin,
     isLoginMemberPending,
     setLoginMember,
     isAdmin,
     setNoLoginMember,
   }
+}
+
+export function useGlobalLoginMember() {
+  return use(LoginMemberContext)
 }

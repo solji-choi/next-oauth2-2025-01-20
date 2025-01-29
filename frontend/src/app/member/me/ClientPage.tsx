@@ -1,11 +1,10 @@
 'use client'
 
 import Image from 'next/image'
-import { LoginMemberContext } from '@/stores/auth/loginMember'
-import { use } from 'react'
+import { useGlobalLoginMember } from '@/stores/auth/loginMember'
 
 export default function ClientPage() {
-  const { loginMember } = use(LoginMemberContext)
+  const { loginMember } = useGlobalLoginMember()
 
   return (
     <div className="flex-1 flex justify-center items-center">

@@ -1,7 +1,16 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { LoginMemberContext } from '@/stores/auth/loginMember'
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/components/ui/drawer'
+import { useGlobalLoginMember } from '@/stores/auth/loginMember'
 import {
   LogOut,
   Menu,
@@ -10,42 +19,20 @@ import {
   TableOfContents,
   User,
 } from 'lucide-react'
-import { use } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import Logo from './Logo'
 import MeMenuButton from './MeMenuButton'
 import ThemeToggleButton from './ThemeToggleButton'
-import Link from 'next/link'
-import {
-  DrawerTrigger,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerClose,
-  Drawer,
-} from '@/components/ui/drawer'
-import { useRouter } from 'next/navigation'
-import client from '@/lib/backend/client'
 
 export default function NarrowHeaderContent({
   className,
 }: {
   className?: string
 }) {
-  const { isLogin, loginMember, isAdmin, removeLoginMember } = use(
-    LoginMemberContext,
-  )
   const router = useRouter()
 
-  const logout = () => {
-    // 이제 로그아웃도 쿠키를 지운 후 로컬 상태를 갱신한다.
-    // 참고로 토큰 쿠키들을 http only 이기 때문에 이렇게 삭제해야 한다.
-    client.DELETE('/api/v1/members/logout').then((res) => {
-      removeLoginMember()
-      router.replace('/')
-    })
-  }
+  const { isLogin, isAdmin, loginMember, logout } = useGlobalLoginMember()
 
   return (
     <div className={`${className} py-1`}>
@@ -75,19 +62,21 @@ export default function NarrowHeaderContent({
                   </Button>
                 </DrawerClose>
               </li>
-              <li>
-                <DrawerClose asChild>
-                  <Button
-                    variant="link"
-                    className="w-full justify-start"
-                    asChild
-                  >
-                    <Link href="/post/write">
-                      <Pencil /> 작성
-                    </Link>
-                  </Button>
-                </DrawerClose>
-              </li>
+              {isLogin && (
+                <li>
+                  <DrawerClose asChild>
+                    <Button
+                      variant="link"
+                      className="w-full justify-start"
+                      asChild
+                    >
+                      <Link href="/post/write">
+                        <Pencil /> 작성
+                      </Link>
+                    </Button>
+                  </DrawerClose>
+                </li>
+              )}
               <li className="py-2">
                 <hr />
               </li>
@@ -138,7 +127,7 @@ export default function NarrowHeaderContent({
                     <Button
                       variant="link"
                       className="w-full justify-start"
-                      onClick={logout}
+                      onClick={() => logout(() => router.replace('/'))}
                     >
                       <LogOut /> 로그아웃
                     </Button>
