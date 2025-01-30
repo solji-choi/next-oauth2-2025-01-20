@@ -68,7 +68,7 @@ export default function LoginForm() {
 
       setLoginMember(response.data.data.item)
       router.replace('/')
-    } catch (error) {
+    } catch {
       toast({
         title: '로그인 중 오류가 발생했습니다',
         variant: 'destructive',

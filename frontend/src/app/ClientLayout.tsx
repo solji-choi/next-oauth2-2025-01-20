@@ -42,19 +42,24 @@ export function ClientLayout({
   }
 
   useEffect(() => {
-    // useEffect 의 인자는 async 함수를 넣을 수 없다.
+    const fetchMember = () => {
+      // useEffect 의 인자는 async 함수를 넣을 수 없다.
     // 그래서 아래에서 프로미스 문법사용
     // 참고로 현재 브라우저에 쿠키가 있어도 http only 이기 때문에 로그인한 회원의 정보는 이렇게 확인해야 한다.
-    client.GET('/api/v1/members/me').then((res) => {
-      if (res.error) {
-        // accessToken 쿠키와 apiKey 쿠키 중 둘다 없거나 둘다 만료된 경우 여기가 실행된다.
-        setNoLoginMember()
-      } else {
-        // accessToken 쿠키 or apiKey 쿠키 중 하나가 유효하다면 여기가 실행된다.
-        setLoginMember(res.data)
-      }
-    })
-  }, [])
+      client.GET("/api/v1/members/me").then((res) => {
+        if (res.error) {
+          // accessToken 쿠키와 apiKey 쿠키 중 둘다 없거나 둘다 만료된 경우 여기가 실행된다.
+          setNoLoginMember();
+        } else {
+          // accessToken 쿠키 or apiKey 쿠키 중 하나가 유효하다면 여기가 실행된다.
+          setLoginMember(res.data);
+        }
+      });
+    };
+
+    fetchMember();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // isLoginMemberPending 의 시작상태는 true 이다.
   // 해당값이 true 라는 것은 아직 로그인 상태인지 아닌지 판별되기 전이라는 의미이다.
