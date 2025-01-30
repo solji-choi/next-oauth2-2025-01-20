@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 import { useGlobalLoginMember } from "@/stores/auth/loginMember";
 
@@ -17,12 +16,7 @@ import {
 import { LogOut, MonitorCog, User } from "lucide-react";
 
 export default function MeMenuButton() {
-  const { isAdmin, loginMember, logout: _logout } = useGlobalLoginMember();
-  const router = useRouter();
-
-  const logout = () => {
-    _logout(() => router.replace("/"));
-  };
+  const { isAdmin, loginMember, logoutAndHome } = useGlobalLoginMember();
 
   return (
     <DropdownMenu>
@@ -59,7 +53,7 @@ export default function MeMenuButton() {
           <Button
             variant="link"
             className="w-full justify-start"
-            onClick={logout}
+            onClick={logoutAndHome}
           >
             <LogOut /> 로그아웃
           </Button>

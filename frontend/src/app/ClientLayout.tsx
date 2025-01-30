@@ -26,23 +26,25 @@ export function ClientLayout({
 }: React.ComponentProps<typeof NextThemesProvider>) {
   // 훅을 통해서 로그인 한 회원의 정보(state)와 관련된 함수들을 얻는다.
   const {
-    isLoginMemberPending,
-    setNoLoginMember,
     loginMember,
     setLoginMember,
-    logout,
+    isLoginMemberPending,
+    setNoLoginMember,
     isLogin,
     isAdmin,
+    logout,
+    logoutAndHome,
   } = useLoginMember();
 
   const loginMemberContextValue = {
-    isLoginMemberPending,
-    setNoLoginMember,
     loginMember,
     setLoginMember,
-    logout,
+    isLoginMemberPending,
+    setNoLoginMember,
     isLogin,
     isAdmin,
+    logout,
+    logoutAndHome,
   };
 
   useEffect(() => {
