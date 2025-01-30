@@ -1,23 +1,23 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
+import Link from "next/link";
 
-import { useGlobalLoginMember } from '@/stores/auth/loginMember'
+import { useGlobalLoginMember } from "@/stores/auth/loginMember";
 
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button";
 
-import { Pencil, TableOfContents } from 'lucide-react'
+import { Pencil, TableOfContents } from "lucide-react";
 
-import Logo from './Logo'
-import MeMenuButton from './MeMenuButton'
-import ThemeToggleButton from './ThemeToggleButton'
+import Logo from "./Logo";
+import MeMenuButton from "./MeMenuButton";
+import ThemeToggleButton from "./ThemeToggleButton";
 
 export default function WideHeaderContent({
   className,
 }: {
-  className?: string
+  className?: string;
 }) {
-  const { isLogin } = useGlobalLoginMember()
+  const { isLogin } = useGlobalLoginMember();
 
   return (
     <div className={`${className} container mx-auto py-2`}>
@@ -40,5 +40,5 @@ export default function WideHeaderContent({
       {isLogin && <MeMenuButton />}
       <ThemeToggleButton />
     </div>
-  )
+  );
 }

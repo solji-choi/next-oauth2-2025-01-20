@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 export default function ClientPage() {
   return (
@@ -324,5 +324,5 @@ export default function ClientPage() {
       Blanditiis velit temporibus deleniti omnis ratione? Iure amet ut molestias
       cum debitis!
     </div>
-  )
+  );
 }

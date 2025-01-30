@@ -12,7 +12,11 @@ const compat = new FlatCompat({
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
-    ignores: ["src/components/**", "src/hooks/**"],
+    ignores: [
+      "src/components/**",
+      "src/hooks/**",
+      "src/lib/backend/*/schema.d.ts",
+    ],
   },
 ];
 
