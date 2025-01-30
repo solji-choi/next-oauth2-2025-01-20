@@ -1,15 +1,17 @@
-import { Button } from '@/components/ui/button'
+import { useTheme } from "next-themes";
+
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-} from '@/components/ui/dropdown-menu'
-import { Sun, Moon, MonitorCheck } from 'lucide-react'
-import { useTheme } from 'next-themes'
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+import { MonitorCheck, Moon, Sun } from "lucide-react";
 
 export default function ThemeToggleButton() {
-  const { setTheme } = useTheme()
+  const { setTheme } = useTheme();
 
   return (
     <DropdownMenu>
@@ -21,22 +23,22 @@ export default function ThemeToggleButton() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme('light')}>
+        <DropdownMenuItem onClick={() => setTheme("light")}>
           <Button variant="link" className="w-full justify-start">
             <Sun /> 밝음
           </Button>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('dark')}>
+        <DropdownMenuItem onClick={() => setTheme("dark")}>
           <Button variant="link" className="w-full justify-start">
             <Moon /> 어두움
           </Button>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('system')}>
+        <DropdownMenuItem onClick={() => setTheme("system")}>
           <Button variant="link" className="w-full justify-start">
             <MonitorCheck /> 기본
           </Button>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

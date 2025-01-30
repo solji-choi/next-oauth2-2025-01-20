@@ -1,21 +1,25 @@
-'use client'
+"use client";
 
-import { ThemeProvider as NextThemesProvider } from 'next-themes'
-import * as React from 'react'
+import * as React from "react";
+import { useEffect } from "react";
 
-import { Copyright, LogIn } from 'lucide-react'
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+
+import Link from "next/link";
+
+import client from "@/lib/backend/client";
+
+import NarrowHeaderContent from "@/lib/business/components/NarrowHeaderContent";
+import WideHeaderContent from "@/lib/business/components/WideHeaderContent";
 
 // 로그인 한 회원의 정보는 전역상태로 관리하는 것이 좋다.
 // LoginMemberContext : 이 컴포넌트의 하위 클라이언트 컴포넌트는 Context의 value 값을 `use` 함수로 얻을 수 있다.
 // useLoginMember : 현재 로그인한 회원의 정보(상태), 그리고 해당 정보와 관련된 함수들을 리턴해준다.
-import { LoginMemberContext, useLoginMember } from '@/stores/auth/loginMember'
+import { LoginMemberContext, useLoginMember } from "@/stores/auth/loginMember";
 
-import { Button } from '@/components/ui/button'
-import client from '@/lib/backend/client'
-import NarrowHeaderContent from '@/lib/business/components/NarrowHeaderContent'
-import WideHeaderContent from '@/lib/business/components/WideHeaderContent'
-import Link from 'next/link'
-import { useEffect } from 'react'
+import { Button } from "@/components/ui/button";
+
+import { Copyright, LogIn } from "lucide-react";
 
 export function ClientLayout({
   children,
@@ -29,7 +33,7 @@ export function ClientLayout({
     logout,
     isLogin,
     isAdmin,
-  } = useLoginMember()
+  } = useLoginMember();
 
   const loginMemberContextValue = {
     isLoginMemberPending,
@@ -39,13 +43,13 @@ export function ClientLayout({
     logout,
     isLogin,
     isAdmin,
-  }
+  };
 
   useEffect(() => {
     const fetchMember = () => {
       // useEffect 의 인자는 async 함수를 넣을 수 없다.
-    // 그래서 아래에서 프로미스 문법사용
-    // 참고로 현재 브라우저에 쿠키가 있어도 http only 이기 때문에 로그인한 회원의 정보는 이렇게 확인해야 한다.
+      // 그래서 아래에서 프로미스 문법사용
+      // 참고로 현재 브라우저에 쿠키가 있어도 http only 이기 때문에 로그인한 회원의 정보는 이렇게 확인해야 한다.
       client.GET("/api/v1/members/me").then((res) => {
         if (res.error) {
           // accessToken 쿠키와 apiKey 쿠키 중 둘다 없거나 둘다 만료된 경우 여기가 실행된다.
@@ -69,7 +73,7 @@ export function ClientLayout({
       <div className="flex-1 flex justify-center items-center text-muted-foreground">
         인증 정보 로딩중...
       </div>
-    )
+    );
   }
   return (
     <NextThemesProvider
@@ -102,5 +106,5 @@ export function ClientLayout({
         </footer>
       </LoginMemberContext>
     </NextThemesProvider>
-  )
+  );
 }

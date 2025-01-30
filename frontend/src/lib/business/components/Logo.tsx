@@ -1,7 +1,8 @@
-'use client'
+"use client";
 
-import { Rabbit } from 'lucide-react'
-import Link from 'next/link'
+import Link from "next/link";
+
+import { Rabbit } from "lucide-react";
 
 export default function Logo({ text, ...props }: { text?: boolean }) {
   return (
@@ -9,5 +10,5 @@ export default function Logo({ text, ...props }: { text?: boolean }) {
       <Rabbit />
       {text && <span>글로그</span>}
     </Link>
-  )
+  );
 }

@@ -1,26 +1,28 @@
-'use client'
+"use client";
 
-import Image from 'next/image'
-import Link from 'next/link'
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-import { Button } from '@/components/ui/button'
+import { useGlobalLoginMember } from "@/stores/auth/loginMember";
+
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { useGlobalLoginMember } from '@/stores/auth/loginMember'
-import { LogOut, MonitorCog, User } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+} from "@/components/ui/dropdown-menu";
+
+import { LogOut, MonitorCog, User } from "lucide-react";
 
 export default function MeMenuButton() {
-  const { isAdmin, loginMember, logout: _logout } = useGlobalLoginMember()
-  const router = useRouter()
+  const { isAdmin, loginMember, logout: _logout } = useGlobalLoginMember();
+  const router = useRouter();
 
   const logout = () => {
-    _logout(() => router.replace('/'))
-  }
+    _logout(() => router.replace("/"));
+  };
 
   return (
     <DropdownMenu>
@@ -32,7 +34,7 @@ export default function MeMenuButton() {
             width={32}
             height={32}
             quality={100}
-            alt={''}
+            alt={""}
           />
         </Button>
       </DropdownMenuTrigger>
@@ -64,5 +66,5 @@ export default function MeMenuButton() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

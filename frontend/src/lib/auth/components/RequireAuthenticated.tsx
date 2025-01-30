@@ -1,15 +1,17 @@
-'use client'
+"use client";
 
-import { Button } from '@/components/ui/button'
-import { useGlobalLoginMember } from '@/stores/auth/loginMember'
-import Link from 'next/link'
+import Link from "next/link";
+
+import { useGlobalLoginMember } from "@/stores/auth/loginMember";
+
+import { Button } from "@/components/ui/button";
 
 export default function RequireAuthenticated({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  const { isLogin } = useGlobalLoginMember()
+  const { isLogin } = useGlobalLoginMember();
 
   if (!isLogin)
     return (
@@ -25,7 +27,7 @@ export default function RequireAuthenticated({
           </div>
         </div>
       </div>
-    )
+    );
 
-  return <>{children}</>
+  return <>{children}</>;
 }

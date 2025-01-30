@@ -1,6 +1,11 @@
-'use client'
+"use client";
 
-import { Button } from '@/components/ui/button'
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+import { useGlobalLoginMember } from "@/stores/auth/loginMember";
+
+import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -9,8 +14,8 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from '@/components/ui/drawer'
-import { useGlobalLoginMember } from '@/stores/auth/loginMember'
+} from "@/components/ui/drawer";
+
 import {
   LogOut,
   Menu,
@@ -18,21 +23,20 @@ import {
   Pencil,
   TableOfContents,
   User,
-} from 'lucide-react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import Logo from './Logo'
-import MeMenuButton from './MeMenuButton'
-import ThemeToggleButton from './ThemeToggleButton'
+} from "lucide-react";
+
+import Logo from "./Logo";
+import MeMenuButton from "./MeMenuButton";
+import ThemeToggleButton from "./ThemeToggleButton";
 
 export default function NarrowHeaderContent({
   className,
 }: {
-  className?: string
+  className?: string;
 }) {
-  const router = useRouter()
+  const router = useRouter();
 
-  const { isLogin, isAdmin, loginMember, logout } = useGlobalLoginMember()
+  const { isLogin, isAdmin, loginMember, logout } = useGlobalLoginMember();
 
   return (
     <div className={`${className} py-1`}>
@@ -127,7 +131,7 @@ export default function NarrowHeaderContent({
                     <Button
                       variant="link"
                       className="w-full justify-start"
-                      onClick={() => logout(() => router.replace('/'))}
+                      onClick={() => logout(() => router.replace("/"))}
                     >
                       <LogOut /> 로그아웃
                     </Button>
@@ -146,5 +150,5 @@ export default function NarrowHeaderContent({
       {isLogin && <MeMenuButton />}
       <ThemeToggleButton />
     </div>
-  )
+  );
 }

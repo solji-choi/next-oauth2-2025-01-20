@@ -1,10 +1,11 @@
-'use client'
+"use client";
 
-import Image from 'next/image'
-import { useGlobalLoginMember } from '@/stores/auth/loginMember'
+import Image from "next/image";
+
+import { useGlobalLoginMember } from "@/stores/auth/loginMember";
 
 export default function ClientPage() {
-  const { loginMember } = useGlobalLoginMember()
+  const { loginMember } = useGlobalLoginMember();
 
   return (
     <div className="flex-1 flex justify-center items-center">
@@ -17,10 +18,10 @@ export default function ClientPage() {
             width={80}
             height={80}
             quality={100}
-            alt={''}
+            alt={""}
           />
         </div>
       </div>
     </div>
-  )
+  );
 }

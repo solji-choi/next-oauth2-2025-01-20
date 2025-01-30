@@ -1,6 +1,16 @@
-'use client'
+"use client";
 
-import { Button } from '@/components/ui/button'
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { useRouter } from "next/navigation";
+
+import client from "@/lib/backend/client";
+
+import { useGlobalLoginMember } from "@/stores/auth/loginMember";
+
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -8,73 +18,68 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { useToast } from '@/hooks/use-toast'
-import client from '@/lib/backend/client'
-import { useGlobalLoginMember } from '@/stores/auth/loginMember'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+
+import { useToast } from "@/hooks/use-toast";
 
 const loginFormSchema = z.object({
   username: z
     .string()
-    .min(1, '아이디를 입력해주세요.')
-    .min(4, '아이디는 4자 이상이여야 합니다.')
-    .max(20, '아이디는 20자 이하여야 합니다.'),
+    .min(1, "아이디를 입력해주세요.")
+    .min(4, "아이디는 4자 이상이여야 합니다.")
+    .max(20, "아이디는 20자 이하여야 합니다."),
   password: z
     .string()
-    .min(1, '비밀번호를 입력해주세요.')
-    .min(4, '비밀번호는 4자 이상이어야 합니다.')
-    .max(20, '비밀번호는 20자 이하여야 합니다.'),
-})
+    .min(1, "비밀번호를 입력해주세요.")
+    .min(4, "비밀번호는 4자 이상이어야 합니다.")
+    .max(20, "비밀번호는 20자 이하여야 합니다."),
+});
 
-type LoginFormInputs = z.infer<typeof loginFormSchema>
+type LoginFormInputs = z.infer<typeof loginFormSchema>;
 
 export default function LoginForm() {
-  const router = useRouter()
-  const { setLoginMember } = useGlobalLoginMember()
-  const { toast } = useToast()
+  const router = useRouter();
+  const { setLoginMember } = useGlobalLoginMember();
+  const { toast } = useToast();
   const form = useForm<LoginFormInputs>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      username: '',
-      password: '',
+      username: "",
+      password: "",
     },
-  })
+  });
 
   const onSubmit = async (data: LoginFormInputs) => {
     try {
-      const response = await client.POST('/api/v1/members/login', {
+      const response = await client.POST("/api/v1/members/login", {
         body: {
           username: data.username,
           password: data.password,
         },
-      })
+      });
 
       if (response.error) {
         toast({
           title: response.error.msg,
-          variant: 'destructive',
-        })
-        return
+          variant: "destructive",
+        });
+        return;
       }
 
       toast({
         title: response.data.msg,
-      })
+      });
 
-      setLoginMember(response.data.data.item)
-      router.replace('/')
+      setLoginMember(response.data.data.item);
+      router.replace("/");
     } catch {
       toast({
-        title: '로그인 중 오류가 발생했습니다',
-        variant: 'destructive',
-      })
+        title: "로그인 중 오류가 발생했습니다",
+        variant: "destructive",
+      });
     }
-  }
+  };
 
   return (
     <Form {...form}>
@@ -123,9 +128,9 @@ export default function LoginForm() {
           disabled={form.formState.isSubmitting}
           className="mt-2"
         >
-          {form.formState.isSubmitting ? '로그인 중...' : '로그인'}
+          {form.formState.isSubmitting ? "로그인 중..." : "로그인"}
         </Button>
       </form>
     </Form>
-  )
+  );
 }

@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import LoginForm from '@/lib/business/components/LoginForm'
+import LoginForm from "@/lib/business/components/LoginForm";
 
 export default function ClientPage() {
   return (
@@ -8,5 +8,5 @@ export default function ClientPage() {
       <h1 className="text-2xl font-bold">관리자 로그인</h1>
       <LoginForm />
     </div>
-  )
+  );
 }

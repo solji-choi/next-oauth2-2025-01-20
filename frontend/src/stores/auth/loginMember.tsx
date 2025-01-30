@@ -1,18 +1,20 @@
-'use client'
+"use client";
 
-import { components } from '@/lib/backend/apiV1/schema'
-import client from '@/lib/backend/client'
-import { createContext, use, useState } from 'react'
+import { createContext, use, useState } from "react";
 
-type Member = components['schemas']['MemberDto']
+import client from "@/lib/backend/client";
+
+import { components } from "@/lib/backend/apiV1/schema";
+
+type Member = components["schemas"]["MemberDto"];
 
 export const LoginMemberContext = createContext<{
-  loginMember: Member
-  setLoginMember: (member: Member) => void
-  isLogin: boolean
-  isLoginMemberPending: boolean
-  isAdmin: boolean
-  logout: (callback: () => void) => void
+  loginMember: Member;
+  setLoginMember: (member: Member) => void;
+  isLogin: boolean;
+  isLoginMemberPending: boolean;
+  isAdmin: boolean;
+  logout: (callback: () => void) => void;
 }>({
   loginMember: createEmptyMember(),
   setLoginMember: () => {},
@@ -20,45 +22,45 @@ export const LoginMemberContext = createContext<{
   isLoginMemberPending: true,
   isAdmin: false,
   logout: () => {},
-})
+});
 
 function createEmptyMember(): Member {
   return {
     id: 0,
-    createDate: '',
-    modifyDate: '',
-    nickname: '',
-    profileImgUrl: '',
-  }
+    createDate: "",
+    modifyDate: "",
+    nickname: "",
+    profileImgUrl: "",
+  };
 }
 
 export function useLoginMember() {
-  const [isLoginMemberPending, setLoginMemberPending] = useState(true)
-  const [loginMember, _setLoginMember] = useState<Member>(createEmptyMember())
+  const [isLoginMemberPending, setLoginMemberPending] = useState(true);
+  const [loginMember, _setLoginMember] = useState<Member>(createEmptyMember());
 
   const removeLoginMember = () => {
-    _setLoginMember(createEmptyMember())
-    setLoginMemberPending(false)
-  }
+    _setLoginMember(createEmptyMember());
+    setLoginMemberPending(false);
+  };
 
   const setLoginMember = (member: Member) => {
-    _setLoginMember(member)
-    setLoginMemberPending(false)
-  }
+    _setLoginMember(member);
+    setLoginMemberPending(false);
+  };
 
   const setNoLoginMember = () => {
-    setLoginMemberPending(false)
-  }
+    setLoginMemberPending(false);
+  };
 
-  const isLogin = loginMember.id !== 0
-  const isAdmin = loginMember.id === 2
+  const isLogin = loginMember.id !== 0;
+  const isAdmin = loginMember.id === 2;
 
   const logout = (callback: () => void) => {
-    client.DELETE('/api/v1/members/logout').then(() => {
-      removeLoginMember()
-      callback()
-    })
-  }
+    client.DELETE("/api/v1/members/logout").then(() => {
+      removeLoginMember();
+      callback();
+    });
+  };
 
   return {
     loginMember,
@@ -68,9 +70,9 @@ export function useLoginMember() {
     setLoginMember,
     isAdmin,
     setNoLoginMember,
-  }
+  };
 }
 
 export function useGlobalLoginMember() {
-  return use(LoginMemberContext)
+  return use(LoginMemberContext);
 }

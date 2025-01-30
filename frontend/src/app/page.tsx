@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import ClientPage from './ClientPage'
+import ClientPage from "./ClientPage";
 
 export default function Page() {
-  return <ClientPage />
+  return <ClientPage />;
 }
